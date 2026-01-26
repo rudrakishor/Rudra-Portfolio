@@ -15,6 +15,7 @@ body {
     line-height: 1.6;
     color: var(--text-primary);
     background-color: var(--bg-primary);
+    overflow-x: hidden;
 }
 
 /* ===== CSS VARIABLES ===== */
@@ -1328,6 +1329,31 @@ a:hover {
     }
 }
 
+@media (max-width: 768px) {
+    .achievement-item {
+        display: block;
+        text-align: center;
+        padding-bottom: 3.8rem;
+        position: relative;
+    }
+
+    .achievement-icon {
+        margin: 0 auto 1rem;
+        background: var(--primary-color);
+    }
+
+    .achievement-content {
+        margin-bottom: 1rem;
+    }
+
+    .achievement-item .exp-btn {
+        position: absolute;
+        left: 1.2rem;
+        bottom: 0.8rem;
+        margin-left: 0;
+    }
+}
+
 @media (max-width: 480px) {
     /* scale down headings & hero image */
     .hero-content h1 {
@@ -2329,6 +2355,7 @@ body.exp-modal-open {
     display: flex;
     gap: 1.2rem;
     margin-bottom: 0.7rem;
+    flex-wrap: wrap;
 }
 
 .contactus-field {

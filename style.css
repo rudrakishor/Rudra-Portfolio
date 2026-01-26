@@ -251,6 +251,8 @@ a:hover {
     background: transparent;
     border: none;
     padding: 0;
+    position: relative;
+    z-index: 1001;
 }
 
 .nav-toggle .bar {
@@ -1226,62 +1228,95 @@ a:hover {
     }
 
     /* When menu is active show full-screen (under navbar) column nav */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 80px 20px 20px 20px;
+        transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
     .nav-menu.active {
+        right: 0;
+    }
+    .mobile-bottom-nav {
         display: flex;
         position: fixed;
-        top: 60px;
-        right: 0;
+        bottom: 0;
         left: 0;
+        width: 100%;
+        background: #ffffff;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        justify-content: space-around;
+        padding: 10px 0;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    }
+
+    .mobile-bottom-nav.hide-nav {
+        transform: translateY(100%);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .mobile-nav-item {
+        display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        padding: 1rem 1.25rem;
-        background: rgba(255, 255, 255, 0.98);
-        z-index: 999;
         align-items: center;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        max-height: calc(100vh - 60px);
-        overflow-y: auto;
+        color: #9ca3af;
+        text-decoration: none;
+        font-size: 12px;
+        transition: color 0.3s ease;
     }
 
-    .nav-menu.active .nav-item {
-        width: 100%;
-        text-align: center;
+    .mobile-nav-item i {
+        font-size: 20px;
+        margin-bottom: 4px;
     }
 
-    .nav-menu.active .nav-link {
-        display: block;
-        padding: 0.75rem 1rem;
-        width: 100%;
-        font-size: 1.05rem;
+    .mobile-nav-item.active {
+        color: var(--primary-color);
     }
 
-    /* Animate toggle into an X when active */
     .nav-toggle.active .bar:nth-child(1) {
-        transform: translateY(6px) rotate(45deg);
+        transform: translateY(8px) rotate(45deg);
     }
     .nav-toggle.active .bar:nth-child(2) {
         opacity: 0;
     }
     .nav-toggle.active .bar:nth-child(3) {
-        transform: translateY(-6px) rotate(-45deg);
+        transform: translateY(-8px) rotate(-45deg);
     }
 
-    body {
-        padding-top: 60px;
+    body.nav-open {
+        overflow: hidden;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    body.nav-open .overlay {
+        opacity: 1;
+        pointer-events: auto;
     }
     
-    .mobile-nav {
-        display: none;
-    }
-    h1 {
-        font-size: 2rem;
-    }
-    h2 {
-        font-size: 1.75rem;
-    }
-    .section-title {
-        font-size: 2rem;
-    }
     .hero-content h1 {
         font-size: 2.5rem;
     }
@@ -1316,7 +1351,7 @@ a:hover {
         display: none;
     }
     .experience-item {
-        padding-left: 0;
+        padding-left: 1rem;
     }
     .experience-item::before {
         display: none;
@@ -1443,9 +1478,7 @@ a:hover {
     margin-top: 2rem;
 }
 
-.hidden {
-    display: none;
-}
+
 
 .visible {
     display: block;
@@ -2397,23 +2430,7 @@ body.exp-modal-open {
     box-shadow: 0 2px 12px rgba(96, 165, 250, 0.10);
 }
 
-.contactus-radio-group {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 0.2rem;
-}
 
-.contactus-radio-group label {
-    font-weight: 400;
-    color: #222;
-    font-size: 1.01rem;
-    margin-bottom: 0;
-}
-
-.contactus-radio-group input[type="radio"] {
-    accent-color: #60a5fa;
-    margin-right: 0.4em;
-}
 
 .contactus-submit-btn {
     background: linear-gradient(90deg, #60a5fa 0%, #3b82f6 100%);
@@ -2445,6 +2462,10 @@ body.exp-modal-open {
         max-width: 100%;
         min-width: 0;
         margin-bottom: 1.5rem;
+    }
+
+    .contactus-form {
+        margin: 0 1rem;
     }
 }
 

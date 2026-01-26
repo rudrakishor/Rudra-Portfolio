@@ -24,11 +24,14 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet">
     
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        
+    
+        
     
 </head>
 
 <body class="preload">
+    <div class="overlay"></div>
     <!-- Navigation Bar -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -70,6 +73,61 @@
             </ul>
         </div>
     </nav>
+    <div class="mobile-bottom-nav">
+        <a href="#home" class="mobile-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#skills" class="mobile-nav-item">
+            <i class="fas fa-cogs"></i>
+            <span>Skills</span>
+        </a>
+        <a href="#projects" class="mobile-nav-item">
+            <i class="fas fa-briefcase"></i>
+            <span>Projects</span>
+        </a>
+        <a href="#contact" class="mobile-nav-item">
+            <i class="fas fa-envelope"></i>
+            <span>Contact</span>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const overlay = document.querySelector('.overlay');
+            const mobileBottomNav = document.querySelector('.mobile-bottom-nav');
+
+            const navLogo = document.querySelector('.nav-logo');
+            navToggle.addEventListener('click', function () {
+                navMenu.classList.toggle('active');
+                navToggle.classList.toggle('active');
+                document.body.classList.toggle('nav-open');
+                mobileBottomNav.classList.toggle('hide-nav');
+                navLogo.classList.toggle('hide-logo');
+            });
+
+            overlay.addEventListener('click', function () {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.classList.remove('nav-open');
+                mobileBottomNav.classList.remove('hide-nav');
+                navLogo.classList.remove('hide-logo');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    document.body.classList.remove('nav-open');
+                    mobileBottomNav.classList.remove('hide-nav');
+                    navLogo.classList.remove('hide-logo');
+                });
+            });
+        });
+    </script>
 
     <!-- Hero/Home Section -->
     <section id="home" class="hero">
@@ -1111,15 +1169,6 @@
             background: rgba(255, 255, 255, 0.17);
         }
     </style>
-
-    <!-- Mobile Bottom Navigation -->
-    <nav class="mobile-nav">
-        <a href="#home" title="Home"><i class="fas fa-home"></i><span>Home</span></a>
-        <a href="#about" title="About"><i class="fas fa-user"></i><span>About</span></a>
-        <a href="#skills" title="Skills"><i class="fas fa-star"></i><span>Skills</span></a>
-        <a href="#projects" title="Projects"><i class="fas fa-briefcase"></i><span>Projects</span></a>
-        <a href="#contact" title="Contact"><i class="fas fa-envelope"></i><span>Contact</span></a>
-    </nav>
 
     <script src="script.js"></script>
 

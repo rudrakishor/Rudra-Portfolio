@@ -18,35 +18,9 @@ const sections = document.querySelectorAll('section');
 
 // ===== NAVBAR FUNCTIONALITY =====
 
-// Mobile Menu Toggle
-function toggleMobileMenu() {
-    navMenu.classList.toggle('active');
-    navToggle.classList.toggle('active');
-
-    // Prevent body scroll when menu is open
-    if (navMenu.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = 'auto';
-    }
-}
-
 // Close mobile menu when clicking on a link
-function closeMobileMenu() {
-    navMenu.classList.remove('active');
-    navToggle.classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
-
-// Event Listeners for Mobile Menu
-if (navToggle) {
-    navToggle.addEventListener('click', toggleMobileMenu);
-}
-
-
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        closeMobileMenu();
         // Smooth scroll to sections
         e.preventDefault();
         
@@ -60,31 +34,24 @@ navLinks.forEach(link => {
                 top: offsetTop,
                 behavior: 'smooth'
             });
+                }
+            });
+        });
+        
+        // ===== SMOOTH SCROLLING =====
+        
+        // ===== NAVBAR SCROLL EFFECTS =====
+        
+        // Change navbar appearance on scroll
+        function handleNavbarScroll() {
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+            }
         }
-    });
-});
-
-// Close menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (navbar && !navbar.contains(e.target) && navMenu && navMenu.classList.contains('active')) {
-        closeMobileMenu();
-    }
-});
-
-// ===== SMOOTH SCROLLING =====
-
-// ===== NAVBAR SCROLL EFFECTS =====
-
-// Change navbar appearance on scroll
-function handleNavbarScroll() {
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
-    }
-}
 
 window.addEventListener('scroll', handleNavbarScroll);
 
@@ -172,13 +139,13 @@ window.addEventListener('load', () => {
 
 // ===== CONTACT FORM FUNCTIONALITY =====
 
-(function() {
-    // This check is important because emailjs might not be loaded
-    if (typeof emailjs !== 'undefined') {
-        // TODO: Replace with your public key
-        emailjs.init('YOUR_PUBLIC_KEY');
-    }
-})();
+// (function() {
+//     // This check is important because emailjs might not be loaded
+//     if (typeof emailjs !== 'undefined') {
+//         // TODO: Replace with your public key
+//         emailjs.init('YOUR_PUBLIC_KEY');
+//     }
+// })();
 
 // Form validation and submission
 function validateForm(formData) {
@@ -238,6 +205,8 @@ function showFormFeedback(message, type = 'success') {
 }
 
 // Handle form submission
+// Handle form submission
+// Handle form submission
 async function handleFormSubmission(e) {
     e.preventDefault();
     
@@ -261,21 +230,26 @@ async function handleFormSubmission(e) {
     submitButton.disabled = true;
     
     try {
-        if (typeof emailjs === 'undefined') {
-            throw new Error("EmailJS is not loaded");
+        const response = await fetch(contactForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // Success feedback
+            showFormFeedback('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
+            // Reset form
+            contactForm.reset();
+        } else {
+            // Error feedback
+            showFormFeedback('Sorry, there was an error sending your message. Please try again or contact me directly.', 'error');
         }
-        // TODO: Replace with your service ID and template ID
-        await emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', contactForm);
-        
-        // Success feedback
-        showFormFeedback('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
-        
-        // Reset form
-        contactForm.reset();
         
     } catch (error) {
         showFormFeedback('Sorry, there was an error sending your message. Please try again or contact me directly.', 'error');
-        console.error('Form submission error:', error);
     } finally {
         // Reset button
         submitButton.innerHTML = originalText;
@@ -299,8 +273,6 @@ function trackCVDownload() {
             'event_label': 'Resume PDF'
         });
     }
-    
-    console.log('CV Download tracked');
 }
 
 // Add event listener to CV download button
@@ -408,7 +380,7 @@ function createScrollToTopButton() {
     scrollBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
     scrollBtn.style.cssText = `
         position: fixed;
-        bottom: 2rem;
+        bottom: 6rem;
         right: 2rem;
         width: 50px;
         height: 50px;
@@ -567,7 +539,6 @@ function toggleSkill(header) {
 
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Portfolio JavaScript loaded successfully!');
     
     // Force show nav toggle if it was hidden
     if (navToggle) {
@@ -755,12 +726,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Global error handler
 window.addEventListener('error', (e) => {
-    console.error('Portfolio JavaScript Error:', e.error);
 });
 
 // Handle unhandled promise rejections
 window.addEventListener('unhandledrejection', (e) => {
-    console.error('Unhandled Promise Rejection:', e.reason);
 });
 
 // ===== UTILITY FUNCTIONS =====
@@ -787,39 +756,6 @@ function setCSSVariable(variable, value) {
 }
 
 // ===== CONSOLE STYLING =====
-
-// Add some style to console logs
-console.log(
-    '%c🚀 Portfolio Website by Rudra Kishor',
-    'background: #2563eb; color: white; padding: 10px; border-radius: 5px; font-size: 16px; font-weight: bold;'
-);
-
-console.log(
-    '%c✨ All JavaScript functionality loaded successfully!',
-    'background: #10b981; color: white; padding: 5px; border-radius: 3px;'
-);
-
-// ===== EXPORT FOR TESTING (IF NEEDED) =====
-
-// Expose functions for testing purposes
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        validateForm,
-        debounce,
-        isInViewport
-    };
-}
-
-// Add some style to console logs
-console.log(
-    '%c🚀 Portfolio Website by Rudra Kishor',
-    'background: #2563eb; color: white; padding: 10px; border-radius: 5px; font-size: 16px; font-weight: bold;'
-);
-
-console.log(
-    '%c✨ All JavaScript functionality loaded successfully!',
-    'background: #10b981; color: white; padding: 5px; border-radius: 3px;'
-);
 
 // ===== EXPORT FOR TESTING (IF NEEDED) =====
 

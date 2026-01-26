@@ -535,10 +535,37 @@ function toggleSkill(header) {
 }
 
 
+// ===== MOBILE CARD POPUP ON SCROLL =====
+function initCardPopup() {
+    if (window.innerWidth > 768) return;
+
+    const cards = document.querySelectorAll('.education-item, .cert-item, .achievement-item, .project-card, .experience-item');
+    let currentPopup = null;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (currentPopup && currentPopup !== entry.target) {
+                    currentPopup.classList.remove('card-popup');
+                }
+                entry.target.classList.add('card-popup');
+                currentPopup = entry.target;
+            } else {
+                entry.target.classList.remove('card-popup');
+            }
+        });
+    }, { threshold: 0.5 });
+
+    cards.forEach(card => {
+        observer.observe(card);
+    });
+}
+
 // ===== INITIALIZATION =====
 
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    initCardPopup();
     
     // Force show nav toggle if it was hidden
     if (navToggle) {

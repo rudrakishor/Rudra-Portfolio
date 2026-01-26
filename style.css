@@ -1161,6 +1161,20 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+    .card-popup {
+        transform: scale(1.05);
+        box-shadow: 0 8px 32px rgba(37, 99, 235, 0.18), 0 1.5px 8px rgba(0, 0, 0, 0.08);
+        z-index: 2;
+    }
+
+    .education-item,
+    .cert-item,
+    .achievement-item,
+    .project-card,
+    .experience-item {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
      :root {
         --section-padding: 3rem 0;
     }

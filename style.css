@@ -242,6 +242,10 @@ a:hover {
     width: 100%;
 }
 
+.nav-mobile-socials {
+    display: none;
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
@@ -1260,6 +1264,54 @@ a:hover {
     .nav-menu.active {
         right: 0;
     }
+
+    .nav-mobile-socials {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: auto;
+        padding-bottom: 2rem;
+        width: 100%;
+        border-top: 1px solid var(--border);
+        padding-top: 2rem;
+    }
+
+    .nav-mobile-socials p {
+        font-size: 0.95rem;
+        color: var(--text-primary);
+        margin-bottom: 1.2rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .nav-mobile-socials .social-links {
+        display: flex;
+        gap: 1.2rem;
+    }
+
+    .nav-mobile-socials .social-links a {
+        width: 42px;
+        height: 42px;
+        background: var(--bg-secondary);
+        color: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: var(--transition);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-light);
+    }
+
+    .nav-mobile-socials .social-links a:hover {
+        background: var(--primary-color);
+        color: var(--text-light);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-medium);
+    }
+
     .mobile-bottom-nav {
         display: flex;
         position: fixed;
@@ -2444,7 +2496,32 @@ body.exp-modal-open {
     box-shadow: 0 2px 12px rgba(96, 165, 250, 0.10);
 }
 
+.contactus-radio-group {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
 
+.contactus-radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin: 0 !important;
+}
+
+.contactus-radio-group input[type="radio"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
 
 .contactus-submit-btn {
     background: linear-gradient(90deg, #60a5fa 0%, #3b82f6 100%);
@@ -2494,5 +2571,21 @@ body.exp-modal-open {
 
     .contactus-info-card {
         padding: 1.2rem 1rem 1rem 1rem;
+    }
+
+    .contactus-radio-group {
+        flex-wrap: nowrap !important;
+        gap: 0.5rem;
+        justify-content: space-between;
+    }
+
+    .contactus-radio-group label {
+        font-size: 0.85rem;
+        gap: 0.3rem;
+    }
+
+    .contactus-radio-group input[type="radio"] {
+        width: 1rem;
+        height: 1rem;
     }
 }

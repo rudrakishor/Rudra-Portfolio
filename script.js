@@ -40,18 +40,18 @@ navLinks.forEach(link => {
         
         // ===== SMOOTH SCROLLING =====
         
-        // ===== NAVBAR SCROLL EFFECTS =====
-        
-        // Change navbar appearance on scroll
-        function handleNavbarScroll() {
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
-            }
-        }
+// ===== NAVBAR SCROLL EFFECTS =====
+
+// Change navbar appearance on scroll
+function handleNavbarScroll() {
+    if (window.scrollY > 100) {
+        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+    } else {
+        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+    }
+}
 
 window.addEventListener('scroll', handleNavbarScroll);
 
@@ -60,15 +60,22 @@ window.addEventListener('scroll', handleNavbarScroll);
 // Highlight active section in navigation
 function updateActiveNavLink() {
     let current = '';
+    const scrollPos = window.scrollY + 200; // Adjust offset for detection
     
     sections.forEach(section => {
-        const sectionTop = section.offsetTop - 150;
+        const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
         
-        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-            current = section.getAttribute('id');
+        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+            current = sectionId;
         }
     });
+
+    // Special case for bottom of page
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 20) {
+        current = 'contact';
+    }
     
     navLinks.forEach(link => {
         link.classList.remove('active');
@@ -79,6 +86,18 @@ function updateActiveNavLink() {
 }
 
 window.addEventListener('scroll', updateActiveNavLink);
+
+// ===== CERTIFICATION IMAGE TOGGLE =====
+function toggleCertImg(btn) {
+    const container = btn.nextElementSibling;
+    if (container.style.display === 'none' || container.style.display === '') {
+        container.style.display = 'block';
+        btn.textContent = 'Hide Certificate';
+    } else {
+        container.style.display = 'none';
+        btn.textContent = 'View Certificate';
+    }
+}
 
 // ===== SCROLL ANIMATIONS =====
 

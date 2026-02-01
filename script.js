@@ -12,7 +12,7 @@ window.addEventListener('load', () => {
 const navbar = document.getElementById('navbar');
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
+const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-item');
 const contactForm = document.getElementById('contactForm');
 const sections = document.querySelectorAll('section');
 
@@ -44,12 +44,17 @@ navLinks.forEach(link => {
 
 // Change navbar appearance on scroll
 function handleNavbarScroll() {
+    const isDark = document.body.classList.contains('dark-theme');
+    const r = isDark ? 15 : 255;
+    const g = isDark ? 23 : 255;
+    const b = isDark ? 42 : 255;
+
     if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+        navbar.style.background = `rgba(${r}, ${g}, ${b}, 0.98)`;
+        navbar.style.boxShadow = isDark ? '0 4px 20px rgba(0, 0, 0, 0.4)' : '0 4px 20px rgba(0, 0, 0, 0.1)';
     } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+        navbar.style.background = `rgba(${r}, ${g}, ${b}, 0.95)`;
+        navbar.style.boxShadow = isDark ? '0 2px 10px rgba(0, 0, 0, 0.2)' : '0 2px 10px rgba(0, 0, 0, 0.05)';
     }
 }
 
@@ -580,10 +585,55 @@ function initCardPopup() {
     });
 }
 
+// ===== THEME TOGGLE FUNCTIONALITY =====
+function initThemeToggle() {
+    const themeToggles = [
+        document.getElementById('theme-toggle-desktop'),
+        document.getElementById('theme-toggle-mobile')
+    ];
+    
+    // Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    const isDarkMode = savedTheme === 'dark';
+    
+    if (isDarkMode) {
+        document.body.classList.add('dark-theme');
+    }
+
+    // Update icons for all toggles
+    function updateToggleIcons(isDark) {
+        themeToggles.forEach(toggle => {
+            if (toggle) {
+                const icon = toggle.querySelector('i');
+                if (icon) {
+                    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+                }
+            }
+        });
+    }
+
+    updateToggleIcons(isDarkMode);
+    handleNavbarScroll(); // Update navbar color immediately
+
+    themeToggles.forEach(toggle => {
+        if (toggle) {
+            toggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                const isDark = document.body.classList.contains('dark-theme');
+                
+                localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+                updateToggleIcons(isDark);
+                handleNavbarScroll(); // Update navbar color on toggle
+            });
+        }
+    });
+}
+
 // ===== INITIALIZATION =====
 
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
     initCardPopup();
     
     // Force show nav toggle if it was hidden

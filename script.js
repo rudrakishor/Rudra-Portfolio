@@ -95,12 +95,21 @@ window.addEventListener('scroll', updateActiveNavLink);
 // ===== CERTIFICATION IMAGE TOGGLE =====
 function toggleCertImg(btn) {
     const container = btn.nextElementSibling;
-    if (container.style.display === 'none' || container.style.display === '') {
-        container.style.display = 'block';
-        btn.textContent = 'Hide Certificate';
-    } else {
-        container.style.display = 'none';
-        btn.textContent = 'View Certificate';
+    const img = container.querySelector('img');
+    if (!img) return;
+
+    const modal = document.getElementById('cert-modal');
+    const modalImg = document.getElementById('cert-modal-img');
+    modalImg.src = img.src;
+    modal.style.display = 'flex';
+    document.body.classList.add('exp-modal-open');
+}
+
+function closeCertModal() {
+    const modal = document.getElementById('cert-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.classList.remove('exp-modal-open');
     }
 }
 
@@ -659,6 +668,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const expModalBlur = document.getElementById('exp-modal-blur');
     if (expModalBlur) {
         expModalBlur.onclick = closeExpModal;
+    }
+
+    const certModalClose = document.getElementById('cert-modal-close');
+    if (certModalClose) {
+        certModalClose.onclick = closeCertModal;
+    }
+    const certModalBlur = document.getElementById('cert-modal-blur');
+    if (certModalBlur) {
+        certModalBlur.onclick = closeCertModal;
     }
 
     // Contact form bubble animation
